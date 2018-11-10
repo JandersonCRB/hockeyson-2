@@ -3,6 +3,8 @@ import './App.css';
 
 import io from 'socket.io-client';
 
+import Grid from '@material-ui/core/Grid';
+
 const KEYS = {
   KeyUp: "ArrowUp",
   KeyRight: "ArrowRight",
@@ -16,17 +18,31 @@ class App extends Component {
   }
   componentDidMount() {
     this.listenKeysEvents();
-    // const endpoint = process.env.NODE_ENV === 'production' ? 'http://hockeyson-2-server.herokuapp.com/' : 'http://localhost:3000';
-    this.socket = io('https://hockeyson-2-server.herokuapp.com/');
+    const endpoint = process.env.NODE_ENV === 'production' ? 'http://hockeyson-2-server.herokuapp.com/' : 'http://localhost:3000';
+    this.socket = io(endpoint);
     this.socket.on("initial_values", initialValues => {
       console.log(initialValues)
       this.setState({ players: initialValues });
     });
-    this.socket.on("update", players => { 
-      this.setState({ players });
-    });
+    this.socket.on("update", this.onUpdate);
   }
   
+  drawPlayer = (context, player) => {
+    context.beginPath();
+    context.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
+    context.fillStyle = player.color;
+    context.fill();
+  }
+
+  onUpdate = players => {
+    console.log("update");
+    let c = this.canvas.getContext('2d');
+    c.clearRect(0,0, 600, 300);
+    players.map(player => {
+      this.drawPlayer(c, player);
+    })
+  }
+
   listenKeysEvents = _ => {
     window.addEventListener("keydown", keyEvent => {
       let action;
@@ -60,6 +76,13 @@ class App extends Component {
 
   render() {
     const { players } = this.state;
+    return (
+      <Grid container style={{ height: '100vh'}}>
+        <Grid container justify="center" alignItems="center" >
+          <canvas height="300" width="600" style={{ border: '1px solid black' }} ref={ref => this.canvas = ref} />
+        </Grid>
+      </Grid>
+    )
     return (
       players.map((player, index) => (
         <div 
