@@ -16,13 +16,13 @@ class App extends Component {
   }
   componentDidMount() {
     this.listenKeysEvents();
-    const endpoint = process.env.NODE_ENV === 'production' ? 'http://hockeyson-2-server.herokuapp.com/' : 'http://localhost:3000';
-    this.socket = io(endpoint);
+    // const endpoint = process.env.NODE_ENV === 'production' ? 'http://hockeyson-2-server.herokuapp.com/' : 'http://localhost:3000';
+    this.socket = io('https://hockeyson-2-server.herokuapp.com/');
     this.socket.on("initial_values", initialValues => {
       console.log(initialValues)
       this.setState({ players: initialValues });
     });
-    this.socket.on("update", players => {
+    this.socket.on("update", players => { 
       this.setState({ players });
     });
   }
