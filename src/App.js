@@ -16,7 +16,7 @@ class App extends Component {
   }
   componentDidMount() {
     this.listenKeysEvents();
-    const endpoint = process.env.NODE_ENV === 'production' ? 'https://hockeyson-2-server:3000' : 'http://localhost:3000';
+    const endpoint = process.env.NODE_ENV === 'production' ? 'http://hockeyson-2-server.herokuapp.com/' : 'http://localhost:3000';
     this.socket = io(endpoint);
     this.socket.on("initial_values", initialValues => {
       console.log(initialValues)
