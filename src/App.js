@@ -5,6 +5,8 @@ import io from 'socket.io-client';
 
 import Grid from '@material-ui/core/Grid';
 
+import Chat from './components/Chat';
+
 const KEYS = {
   KeyUp: "ArrowUp",
   KeyRight: "ArrowRight",
@@ -25,6 +27,7 @@ class App extends Component {
       this.setState({ players: initialValues });
     });
     this.socket.on("update", this.onUpdate);
+    this.setState({ socket: this.socket });
   }
   
   drawPlayer = (context, player) => {
@@ -75,30 +78,19 @@ class App extends Component {
   }
 
   render() {
-    const { players } = this.state;
     return (
       <Grid container style={{ height: '100vh'}}>
-        <Grid container justify="center" alignItems="center" >
-          <canvas height="300" width="600" style={{ border: '1px solid black' }} ref={ref => this.canvas = ref} />
+        <Grid container direction="row" justify="center" alignItems="center" >
+          <Grid item xs={12} lg={3} style={{ height: '100%' }}>
+            { this.socket && <Chat socket={this.socket} /> }
+          </Grid>
+          <Grid item xs container justify="center" style={{ minWidth: 600 }}>
+            <canvas height="300" width="600" style={{ border: '1px solid black' }} ref={ref => this.canvas = ref} />
+          </Grid>
+          <Grid item xs={12} lg={3} style={{ background: 'purple' }}>
+          </Grid>
         </Grid>
       </Grid>
-    )
-    return (
-      players.map((player, index) => (
-        <div 
-          key={index} 
-          className="player" 
-          style={{ 
-            position: 'absolute', 
-            top: player.y - player.radius, 
-            left: player.x - player.radius, 
-            width: player.radius * 2,
-            height: player.radius * 2,
-            backgroundColor: player.color 
-          }} 
-          
-          />
-      ))
     );
   }
 }

@@ -1,0 +1,38 @@
+.title-box {
+    background-color :rgba(0, 0, 0, 0.2);
+    border-radius: 7px 7px 0 0;
+}
+
+.content-body {
+    background-color :rgba(0, 0, 0, 0.1);
+    padding: 10px 5px;
+}
+
+.msg-box {
+    padding: 10px 5px;
+    background-color :white;
+    border-radius: 3px;
+}
+
+.input-box {
+    background-color :rgba(0, 0, 0, 0.2);
+}
+
+.input-box input {
+    border-radius: 15px 0 0 15px;
+    border-color: rgba(0, 0, 0, 0);
+    padding-left: 10px;
+}
+
+.input-box button {
+    border-color: rgba(0, 0, 0, 0);
+    border-radius: 0px 15px 15px 0;
+    padding-left: 10px;
+}
+
+.text-box {
+    padding: 3px 7px;
+    background-color: burlywood;
+    border-radius: 6px;
+
+}
